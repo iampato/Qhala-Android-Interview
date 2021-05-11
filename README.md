@@ -1,6 +1,6 @@
 # qhala
 
-A new Flutter project.
+This is the flutter version of the Qhala android technical interview challenge upside_down_face That I saw somewhere.
 
 ## Android Technologies
 - Navigation – To manage your application navigation.
