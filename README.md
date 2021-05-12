@@ -24,6 +24,9 @@ But since this is Flutter here is my chosen Technologies:
 2. Repositories Test
 3. Cubit Tests
 
+## Design wireframe
+<img src="readme/design.jpg" alt="Movie design" width="1024" />
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
