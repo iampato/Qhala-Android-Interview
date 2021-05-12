@@ -25,7 +25,7 @@ But since this is Flutter here is my chosen Technologies:
 3. Cubit Tests
 
 ## Design wireframe
-<img src="readme/design.jpg" alt="Movie design" height="800" />
+<img src="readme/design.jpg" alt="Movie design" height="500" />
 
 ## Getting Started
 
