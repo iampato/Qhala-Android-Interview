@@ -1,6 +1,6 @@
 # qhala
 
-This is the flutter version of the Qhala android technical interview challenge upside_down_face That I saw somewhere.
+This is the flutter version of the Qhala android technical interview challenge :stuck_out_tongue_winking_eye: That I saw somewhere.
 
 ## Android Technologies
 - Navigation – To manage your application navigation.
