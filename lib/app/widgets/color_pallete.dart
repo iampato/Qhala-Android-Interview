@@ -30,8 +30,8 @@ class AppTheme {
       ..accent1 = theme.primaryColor
       ..accent2 = theme.accentColor
       ..greyWeak = Color(0xffD8D8D8)
-      ..grey = Color(0xff515d5a)
-      ..greyStrong = Color(0xff737373)
+      ..grey = Color(0xff737373)
+      ..greyStrong = Color(0xff515d5a)
       ..error = Color(0xffFF1717)
       ..focus = Color(0xFF0ee2b1)
       ..txt = Colors.black
