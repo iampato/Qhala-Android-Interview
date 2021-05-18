@@ -9,6 +9,8 @@ MovieModel movieModelFromJson(String str) =>
 
 String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
+const String _baseUrl = 'http://image.tmdb.org/t/p/';
+
 class MovieModel {
   MovieModel({
     this.page,
@@ -151,4 +153,48 @@ class Result {
         "vote_average": voteAverage,
         "vote_count": voteCount,
       };
+
+  // backdrop image url
+  String get smallBackdropImageUrl {
+    if (backdropPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/w92$backdropPath";
+  }
+
+  String get mediumBackdropImageUrl {
+    if (backdropPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/w185$backdropPath";
+  }
+
+  String get largeBackdropImageUrl {
+    if (backdropPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/w185$backdropPath";
+  }
+
+  // poster image url
+  String get smallPosterImageUrl {
+    if (posterPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/w92$posterPath";
+  }
+
+  String get mediumPosterImageUrl {
+    if (posterPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/w185$posterPath";
+  }
+
+  String get largePosterImageUrl {
+    if (posterPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/w185$posterPath";
+  }
 }
