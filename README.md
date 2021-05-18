@@ -28,7 +28,7 @@ But since this is Flutter here is my chosen Technologies:
 <img src="readme/design.jpg" alt="Movie design" height="500" />
 
 ## Todo
-1. Setup project file structure
+1. ~Setup project file structure~
 2. Implement the UI mock up
 3. Add the HTTP layer
 4. Offline storage with moor
