@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:qhala/app/screens/home_page.dart';
 import 'package:qhala/app/widgets/color_pallete.dart';
 
@@ -10,7 +11,8 @@ class MyApp extends StatelessWidget {
       title: 'Movie App',
       theme: ThemeData(
         primarySwatch: Colors.red,
-        scaffoldBackgroundColor: AppTheme.theme(context).bg1
+        fontFamily: GoogleFonts.openSans().fontFamily,
+        scaffoldBackgroundColor: AppTheme.theme(context).bg1,
       ),
       home: HomePage(),
     );
