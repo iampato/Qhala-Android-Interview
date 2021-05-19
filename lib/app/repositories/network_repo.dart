@@ -13,12 +13,12 @@ class MovieRepository {
   // Global Variables
   Logger _logger = Logger();
 
-  /// httpGetPopularMovies, endpoint is 
+  /// httpGetPopularMovies, endpoint is
   /// `https://api.themoviedb.org/3/movie/popular?api_key=YOUR_KEY&language=en-US&page=1`
   /// params -> the page number since the API is paginated
   /// return Future Movie model
   /// if an error occurres return null
-  Future<String> httpGetPopularMovies({
+  Future<MovieModel> httpGetPopularMovies({
     @required int page,
   }) async {
     _logger.i("Page number: $page");
@@ -29,9 +29,10 @@ class MovieRepository {
       if (response.statusCode == 404) {
         throw InternetException();
       } else if (response.statusCode == 200) {
-        return response.data.toString();
+        final movieModel = movieModelFromJson(response.data);
+        return movieModel;
       } else {
-        return response.data.toString();
+        return null;
       }
     } else {
       return null;
