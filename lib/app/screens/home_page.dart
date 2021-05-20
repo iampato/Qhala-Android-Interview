@@ -1,9 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qhala/app/screens/detail_page.dart';
-import 'package:qhala/app/widgets/color_pallete.dart';
-import 'package:qhala/app/widgets/page_route_transitions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:qhala/app/cubits/Theme/theme_cubit.dart';
+import 'package:qhala/app/cubits/movie/movie_cubit.dart';
+import 'package:qhala/app/models/movie_model.dart';
+import 'package:qhala/app/repositories/_repositories.dart';
+import 'package:qhala/app/screens/widgets/movie_item.dart';
+import 'package:qhala/app/utils/http_client.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,166 +15,160 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController controller;
+  MovieCubit movieCubit;
+  final _scrollThreshold = 200.0;
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.menu),
-        title: Text("Popular Movies"),
+  void initState() {
+    super.initState();
+    controller = ScrollController()..addListener(_scrollListener);
+    movieCubit = MovieCubit(
+      movieRepository: MovieRepository(
+        networkUtil: HttpNetworkUtil(),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return MovieItem();
-        },
-      ),
-    );
+    )..fetchPopularMovies();
   }
-}
 
-class MovieItem extends StatelessWidget {
-  const MovieItem({
-    Key key,
-  }) : super(key: key);
+  @override
+  void dispose() {
+    controller.removeListener(_scrollListener);
+    controller.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    final maxScroll = controller.position.maxScrollExtent;
+    final currentScroll = controller.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      movieCubit.fetchPopularMovies();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    ThemeData _theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15.0,
-        vertical: 6,
-      ),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            PageRoutes.fadeScale(() {
-              return DetailMoviePage();
-            }),
-          );
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: _theme.cardColor,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Hero(
-                  tag: 1,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints.expand(
-                      height: MediaQuery.of(context).size.height * 0.19,
-                      width: MediaQuery.of(context).size.width * 0.29,
-                    ),
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl:
-                          "https://lifesuccessforteens.com/wp-content/uploads/2019/07/Life-success-for-teens-1.jpg",
-                      placeholder: (context, url) => Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.theme(context).grey,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.photo,
-                            color: AppTheme.theme(context).bg1,
-                            size: 60,
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.theme(context).grey,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.error,
-                            color: AppTheme.theme(context).bg1,
-                            size: 60,
-                          ),
-                        ),
-                      ),
+    Size size = MediaQuery.of(context).size;
+    return BlocProvider(
+      create: (context) => movieCubit,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Icon(Icons.menu),
+          title: Text("Popular Movies"),
+          actions: <Widget>[
+            PopupMenuButton(
+              icon: Icon(
+                BlocProvider.of<ThemeCubit>(context).theme == 0
+                    ? Icons.brightness_3
+                    : BlocProvider.of<ThemeCubit>(context).theme == 1
+                        ? Icons.wb_sunny
+                        : Icons.phone_android,
+              ),
+              itemBuilder: (BuildContext context) {
+                return <PopupMenuEntry<int>>[
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text("Light Mode"),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: Text("Dark Mode"),
+                  ),
+                  PopupMenuItem(
+                    value: 3,
+                    child: Text("System"),
+                  )
+                ];
+              },
+              onSelected: (myValue) {
+                switch (myValue) {
+                  case 1:
+                    BlocProvider.of<ThemeCubit>(context).switchToLightMode();
+                    break;
+                  case 2:
+                    BlocProvider.of<ThemeCubit>(context).switchToDarkMode();
+                    break;
+                  case 3:
+                    BlocProvider.of<ThemeCubit>(context).switchToSystemMode();
+                    break;
+                  default:
+                    debugPrint("error");
+                }
+              },
+            )
+          ],
+        ),
+        body: BlocConsumer<MovieCubit, MovieState>(
+          listener: (context, state) {
+            if (state is MovieLoaded) {
+              if (state.message != null) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.message),
+                ));
+              }
+            }
+          },
+          builder: (context, state) {
+            if (state is MovieInitial) {
+              return Center(
+                child: LottieBuilder.asset(
+                  "assets/lottie/loading.json",
+                  animate: true,
+                  height: size.height * 0.5,
+                  width: size.width,
+                ),
+              );
+            }
+            if (state is MovieError) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: LottieBuilder.asset(
+                      "assets/lottie/error.json",
+                      animate: true,
+                      repeat: false,
+                      height: size.height * 0.5,
+                      width: size.width,
                     ),
                   ),
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 4),
-                    Text(
-                      "Tom Clancy's Without Remorse",
-                      style: _theme.textTheme.subtitle1.copyWith(
-                        fontWeight: FontWeight.w700,
+                  SizedBox(height: 20),
+                  Text(state.message),
+                ],
+              );
+            }
+            if (state is MovieLoaded) {
+              final movieModel = state.movieModel;
+              final movieList = movieModel.results;
+              return ListView.builder(
+                itemCount: state.doneFetchingMore
+                    ? movieList.length
+                    : movieList.length + 1,
+                controller: controller,
+                itemBuilder: (context, index) {
+                  if (index >= movieList.length) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: SizedBox(
+                          width: 33,
+                          height: 33,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                          ),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 2.5,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_today_outlined,
-                            size: 16,
-                            color: AppTheme.theme(context).grey,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            "Tuesday, 12th May 2021",
-                            style: TextStyle(
-                              color: AppTheme.theme(context).grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star_border_outlined,
-                          size: 18,
-                          color: AppTheme.theme(context).grey,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "5.6 / 10",
-                          style: TextStyle(
-                            color: AppTheme.theme(context).grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 22),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.flag_outlined,
-                          size: 18,
-                          color: AppTheme.theme(context).grey,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "EN",
-                          style: TextStyle(
-                            color: AppTheme.theme(context).grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+                    );
+                  } else {
+                    Result result = movieList[index];
+                    return MovieItem(
+                      result: result,
+                      index: index,
+                    );
+                  }
+                },
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

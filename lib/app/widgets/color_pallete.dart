@@ -17,7 +17,7 @@ class AppTheme {
     ThemeData theme = Theme.of(context);
     bool isDarkMode = theme.brightness == Brightness.dark;
     if (isDarkMode) {
-      return isDarkTheme();
+      return isDarkTheme(theme);
     } else {
       return isLightTheme(theme);
     }
@@ -38,14 +38,14 @@ class AppTheme {
       ..accentTxt = Color(0xFF737373);
   }
 
-  static AppTheme isDarkTheme() {
+  static AppTheme isDarkTheme(ThemeData theme) {
     return AppTheme()
       ..bg1 = Color(0xff00120f)
       ..surface = Color(0xff252525)
       ..accent1 = Color(0xff55a632)
       ..accent2 = Color(0xfff19e46)
       ..greyWeak = Color(0xffa8b3b0)
-      ..grey = Color(0xffced4d3)
+      ..grey = Color(0xffa8b3b0)
       ..greyStrong = Color(0xffffffff)
       ..error = Color(0xffe55642)
       ..focus = Color(0xff0ee2b1)

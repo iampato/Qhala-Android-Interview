@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-MovieModel movieModelFromJson(String str) =>
-    MovieModel.fromJson(json.decode(str));
+MovieModel movieModelFromJson(Map<String, dynamic> data) =>
+    MovieModel.fromJson(data);
 
 String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
@@ -173,7 +173,7 @@ class Result {
     if (backdropPath == null) {
       throw Exception('Poster image path not defined.');
     }
-    return "$_baseUrl/w185$backdropPath";
+    return "$_baseUrl/w500$backdropPath";
   }
 
   // poster image url
@@ -195,6 +195,6 @@ class Result {
     if (posterPath == null) {
       throw Exception('Poster image path not defined.');
     }
-    return "$_baseUrl/w185$posterPath";
+    return "$_baseUrl/w500$posterPath";
   }
 }
