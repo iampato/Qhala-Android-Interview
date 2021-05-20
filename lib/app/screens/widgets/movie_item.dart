@@ -8,9 +8,10 @@ import 'package:qhala/app/widgets/page_route_transitions.dart';
 
 class MovieItem extends StatelessWidget {
   final Result result;
+  final int index;
   const MovieItem({
     Key key,
-    @required this.result,
+    @required this.result,  @required this.index,
   }) : super(key: key);
 
   @override
@@ -88,7 +89,7 @@ class MovieItem extends StatelessWidget {
                     children: [
                       SizedBox(height: 4),
                       Text(
-                        result.title,
+                        "${index+1}. "+result.title,
                         overflow: TextOverflow.ellipsis,
                         style: _theme.textTheme.subtitle1.copyWith(
                           fontWeight: FontWeight.w700,

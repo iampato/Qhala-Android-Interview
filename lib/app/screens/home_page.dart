@@ -14,15 +14,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController controller;
+  MovieCubit movieCubit;
+  final _scrollThreshold = 200.0;
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController()..addListener(_scrollListener);
+    movieCubit = MovieCubit(
+      movieRepository: MovieRepository(
+        networkUtil: HttpNetworkUtil(),
+      ),
+    )..fetchPopularMovies();
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_scrollListener);
+    controller.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    final maxScroll = controller.position.maxScrollExtent;
+    final currentScroll = controller.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      movieCubit.fetchPopularMovies();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => MovieCubit(
-        movieRepository: MovieRepository(
-          networkUtil: HttpNetworkUtil(),
-        ),
-      )..fetchPopularMovies(),
+      create: (context) => movieCubit,
       child: Scaffold(
         appBar: AppBar(
           leading: Icon(Icons.menu),
@@ -63,12 +88,31 @@ class _HomePageState extends State<HomePage> {
               final movieModel = state.movieModel;
               final movieList = movieModel.results;
               return ListView.builder(
-                itemCount: movieList.length,
+                itemCount: state.doneFetchingMore
+                    ? movieList.length
+                    : movieList.length + 1,
+                controller: controller,
                 itemBuilder: (context, index) {
-                  Result result = movieList[index];
-                  return MovieItem(
-                    result: result,
-                  );
+                  if (index >= movieList.length) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: SizedBox(
+                          width: 33,
+                          height: 33,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    Result result = movieList[index];
+                    return MovieItem(
+                      result: result,
+                      index: index,
+                    );
+                  }
                 },
               );
             }
