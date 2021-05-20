@@ -23,28 +23,34 @@ class MovieLoaded extends MovieState {
   final bool doneFetchingMore;
   final String message;
 
-  MovieLoaded( {
+  MovieLoaded({
     @required this.movieModel,
     this.doneFetchingMore = false,
     this.message,
   });
 
   @override
-  List<Object> get props => [movieModel,doneFetchingMore,message,];
+  List<Object> get props => [
+        movieModel,
+        doneFetchingMore,
+        message,
+      ];
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is MovieLoaded &&
-      other.movieModel == movieModel &&
-      other.doneFetchingMore == doneFetchingMore &&
-      other.message == message;
+        other.movieModel == movieModel &&
+        other.doneFetchingMore == doneFetchingMore &&
+        other.message == message;
   }
 
   @override
-  int get hashCode => movieModel.hashCode ^ doneFetchingMore.hashCode ^ message.hashCode;
+  int get hashCode =>
+      movieModel.hashCode ^ doneFetchingMore.hashCode ^ message.hashCode;
 
   @override
-  String toString() => 'MovieLoaded(movieModel: $movieModel, doneFetchingMore: $doneFetchingMore, message: $message)';
+  String toString() =>
+      'MovieLoaded(movieModel: $movieModel, doneFetchingMore: $doneFetchingMore, message: $message)';
 }

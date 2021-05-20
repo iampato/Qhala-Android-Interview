@@ -11,7 +11,8 @@ class MovieItem extends StatelessWidget {
   final int index;
   const MovieItem({
     Key key,
-    @required this.result,  @required this.index,
+    @required this.result,
+    @required this.index,
   }) : super(key: key);
 
   @override
@@ -89,7 +90,7 @@ class MovieItem extends StatelessWidget {
                     children: [
                       SizedBox(height: 4),
                       Text(
-                        "${index+1}. "+result.title,
+                        "${index + 1}. " + result.title,
                         overflow: TextOverflow.ellipsis,
                         style: _theme.textTheme.subtitle1.copyWith(
                           fontWeight: FontWeight.w700,
