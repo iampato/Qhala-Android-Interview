@@ -106,18 +106,18 @@ class HttpNetworkUtil {
   }
 
   Dio addInterceptors() {
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (
-      HttpClient client,
-    ) {
-      client.badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) {
-        return true;
-      };
-      return client;
-    };
+    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (
+    //   HttpClient client,
+    // ) {
+    //   client.badCertificateCallback = (
+    //     X509Certificate cert,
+    //     String host,
+    //     int port,
+    //   ) {
+    //     return true;
+    //   };
+    //   return client;
+    // };
 
     return dio;
   }
