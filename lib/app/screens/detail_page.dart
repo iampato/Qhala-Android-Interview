@@ -1,8 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:qhala/app/models/movie_model.dart';
 import 'package:qhala/app/widgets/color_pallete.dart';
 
 class DetailMoviePage extends StatelessWidget {
+  final Result result;
+
+  const DetailMoviePage({Key key, @required this.result}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     ThemeData _theme = Theme.of(context);
@@ -10,23 +15,23 @@ class DetailMoviePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Tom Clancy's Without Remorse",
+          result.title,
         ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Hero(
-            tag: 1,
+            tag: result.id,
             child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              height: size.height * 0.4,
+              fit: BoxFit.fitHeight,
+              height: size.height * 0.338,
               width: size.width,
-              imageUrl:
-                  "https://lifesuccessforteens.com/wp-content/uploads/2019/07/Life-success-for-teens-1.jpg",
+              imageUrl: result.largeBackdropImageUrl,
               placeholder: (context, url) => Container(
+                height: size.height * 0.338,
                 decoration: BoxDecoration(
-                  color: AppTheme.theme(context).grey,
+                  color: AppTheme.theme(context).grey.withOpacity(0.7),
                 ),
                 child: Center(
                   child: Icon(
@@ -38,7 +43,7 @@ class DetailMoviePage extends StatelessWidget {
               ),
               errorWidget: (context, url, error) => Container(
                 decoration: BoxDecoration(
-                  color: AppTheme.theme(context).grey,
+                  color: AppTheme.theme(context).grey.withOpacity(0.7),
                 ),
                 child: Center(
                   child: Icon(
@@ -69,7 +74,9 @@ class DetailMoviePage extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      "Tuesday, 12th May 2021",
+                      DateFormat.yMMMMEEEEd().format(
+                        result.releaseDate,
+                      ),
                       style: TextStyle(
                         color: AppTheme.theme(context).grey,
                       ),
@@ -86,7 +93,7 @@ class DetailMoviePage extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      "5.6 / 10",
+                      "${result.voteAverage} / 10",
                       style: TextStyle(
                         color: AppTheme.theme(context).grey,
                       ),
@@ -103,7 +110,7 @@ class DetailMoviePage extends StatelessWidget {
               right: 20,
             ),
             child: Text(
-              "Tom Clancy's Without Remorse",
+              result.title,
               style: _theme.textTheme.subtitle1.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -111,13 +118,13 @@ class DetailMoviePage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(
-              top: 5,
+              top: 10,
               left: 20,
               right: 20,
               bottom: 15,
             ),
             child: Text(
-              "Tom Clancy's Without Remorse",
+              result.overview,
               style: TextStyle(
                 color: AppTheme.theme(context).greyStrong,
               ),
