@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:qhala/app/cubits/Theme/theme_cubit.dart';
 import 'package:qhala/app/cubits/movie/movie_cubit.dart';
 import 'package:qhala/app/models/movie_model.dart';
 import 'package:qhala/app/repositories/_repositories.dart';
@@ -52,9 +53,59 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: Icon(Icons.menu),
           title: Text("Popular Movies"),
+          actions: <Widget>[
+            PopupMenuButton(
+              icon: Icon(
+                BlocProvider.of<ThemeCubit>(context).theme == 0
+                    ? Icons.brightness_3
+                    : BlocProvider.of<ThemeCubit>(context).theme == 1
+                        ? Icons.wb_sunny
+                        : Icons.phone_android,
+              ),
+              itemBuilder: (BuildContext context) {
+                return <PopupMenuEntry<int>>[
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text("Light Mode"),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: Text("Dark Mode"),
+                  ),
+                  PopupMenuItem(
+                    value: 3,
+                    child: Text("System"),
+                  )
+                ];
+              },
+              onSelected: (myValue) {
+                switch (myValue) {
+                  case 1:
+                    BlocProvider.of<ThemeCubit>(context).switchToLightMode();
+                    break;
+                  case 2:
+                    BlocProvider.of<ThemeCubit>(context).switchToDarkMode();
+                    break;
+                  case 3:
+                    BlocProvider.of<ThemeCubit>(context).switchToSystemMode();
+                    break;
+                  default:
+                    debugPrint("error");
+                }
+              },
+            )
+          ],
         ),
         body: BlocConsumer<MovieCubit, MovieState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is MovieLoaded) {
+              if (state.message != null) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.message),
+                ));
+              }
+            }
+          },
           builder: (context, state) {
             if (state is MovieInitial) {
               return Center(
@@ -80,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // Text(state.message),
+                  Text(state.message),
                 ],
               );
             }

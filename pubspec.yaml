@@ -20,6 +20,7 @@ dependencies:
   intl: ^0.17.0
   logger: ^1.0.0
   lottie: ^1.0.1
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
