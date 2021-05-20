@@ -1,13 +1,16 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:qhala/app/models/movie_model.dart';
 import 'package:qhala/app/screens/detail_page.dart';
 import 'package:qhala/app/widgets/color_pallete.dart';
 import 'package:qhala/app/widgets/page_route_transitions.dart';
 
 class MovieItem extends StatelessWidget {
+  final Result result;
   const MovieItem({
     Key key,
+    @required this.result,
   }) : super(key: key);
 
   @override
@@ -22,8 +25,10 @@ class MovieItem extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            PageRoutes.fadeScale(() {
-              return DetailMoviePage();
+            PageRoutes.slide(() {
+              return DetailMoviePage(
+                result: result,
+              );
             }),
           );
         },
@@ -40,7 +45,7 @@ class MovieItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Hero(
-                  tag: 1,
+                  tag: result.id,
                   child: ConstrainedBox(
                     constraints: BoxConstraints.expand(
                       height: MediaQuery.of(context).size.height * 0.19,
@@ -48,11 +53,10 @@ class MovieItem extends StatelessWidget {
                     ),
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl:
-                          "https://lifesuccessforteens.com/wp-content/uploads/2019/07/Life-success-for-teens-1.jpg",
+                      imageUrl: result.smallPosterImageUrl,
                       placeholder: (context, url) => Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.theme(context).grey,
+                          color: AppTheme.theme(context).grey.withOpacity(0.7),
                         ),
                         child: Center(
                           child: Icon(
@@ -64,7 +68,7 @@ class MovieItem extends StatelessWidget {
                       ),
                       errorWidget: (context, url, error) => Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.theme(context).grey,
+                          color: AppTheme.theme(context).grey.withOpacity(0.7),
                         ),
                         child: Center(
                           child: Icon(
@@ -78,72 +82,77 @@ class MovieItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 4),
-                    Text(
-                      "Tom Clancy's Without Remorse",
-                      style: _theme.textTheme.subtitle1.copyWith(
-                        fontWeight: FontWeight.w700,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 4),
+                      Text(
+                        result.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: _theme.textTheme.subtitle1.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 2.5,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          bottom: 2.5,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_today_outlined,
+                              size: 16,
+                              color: AppTheme.theme(context).grey,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              DateFormat.yMMMEd().format(
+                                result.releaseDate,
+                              ),
+                              style: TextStyle(
+                                color: AppTheme.theme(context).grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Row(
+                      Row(
                         children: [
                           Icon(
-                            Icons.calendar_today_outlined,
-                            size: 16,
+                            Icons.star_border_outlined,
+                            size: 18,
                             color: AppTheme.theme(context).grey,
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "Tuesday, 12th May 2021",
+                            "${result.voteAverage} / 10",
                             style: TextStyle(
                               color: AppTheme.theme(context).grey,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star_border_outlined,
-                          size: 18,
-                          color: AppTheme.theme(context).grey,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "5.6 / 10",
-                          style: TextStyle(
+                      SizedBox(height: 22),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.flag_outlined,
+                            size: 18,
                             color: AppTheme.theme(context).grey,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 22),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.flag_outlined,
-                          size: 18,
-                          color: AppTheme.theme(context).grey,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "EN",
-                          style: TextStyle(
-                            color: AppTheme.theme(context).grey,
+                          SizedBox(width: 10),
+                          Text(
+                            result.originalLanguage.toUpperCase(),
+                            style: TextStyle(
+                              color: AppTheme.theme(context).grey,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
