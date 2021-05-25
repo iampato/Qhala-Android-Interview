@@ -41,7 +41,7 @@ class AppTheme {
   static AppTheme isDarkTheme(ThemeData theme) {
     return AppTheme()
       ..bg1 = Color(0xff00120f)
-      ..surface = Color(0xff252525)
+      ..surface = Colors.black
       ..accent1 = Color(0xff55a632)
       ..accent2 = Color(0xfff19e46)
       ..greyWeak = Color(0xffa8b3b0)

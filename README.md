@@ -24,16 +24,19 @@ But since this is Flutter here is my chosen Technologies:
 2. Repositories Test
 3. Cubit Tests
 
-## Design wireframe
-<img src="readme/design.jpg" alt="Movie design" height="500" />
 
 ## Todo
 1. ~Setup project file structure~
-2. Implement the UI mock up
-3. Add the HTTP layer
-4. Offline storage with moor
-5. Add Tests
-6. Setup CI/CD
+2. ~Implement the UI mock up~
+3. ~Add the HTTP layer~
+4. Responsive design for flutter web
+5. Offline storage with moor
+6. Add Tests
+7. Setup CI/CD
+
+
+## Design wireframe
+<img src="readme/design.jpg" alt="Movie design" height="500" />
 
 ## Getting Started
 
