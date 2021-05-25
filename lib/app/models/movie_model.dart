@@ -9,7 +9,7 @@ MovieModel movieModelFromJson(Map<String, dynamic> data) =>
 
 String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
-const String _baseUrl = 'http://image.tmdb.org/t/p/';
+const String _baseUrl = 'http://image.tmdb.org/t/p';
 
 class MovieModel {
   MovieModel({
@@ -174,6 +174,13 @@ class Result {
       throw Exception('Poster image path not defined.');
     }
     return "$_baseUrl/w500$backdropPath";
+  }
+
+  String get originalBackdropImageUrl {
+    if (backdropPath == null) {
+      throw Exception('Poster image path not defined.');
+    }
+    return "$_baseUrl/original$backdropPath";
   }
 
   // poster image url

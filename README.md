@@ -24,8 +24,6 @@ But since this is Flutter here is my chosen Technologies:
 2. Repositories Test
 3. Cubit Tests
 
-## Design wireframe
-<img src="readme/design.jpg" alt="Movie design" height="500" />
 
 ## Todo
 1. ~Setup project file structure~
@@ -35,6 +33,10 @@ But since this is Flutter here is my chosen Technologies:
 5. Offline storage with moor
 6. Add Tests
 7. Setup CI/CD
+
+
+## Design wireframe
+<img src="readme/design.jpg" alt="Movie design" height="500" />
 
 ## Getting Started
 
