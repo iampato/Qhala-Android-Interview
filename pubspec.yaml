@@ -14,9 +14,12 @@ dependencies:
   cached_network_image: ^3.0.0
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
+  dio_cache_interceptor: ^2.3.1
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0
   google_fonts: ^2.1.0
+  hive: ^2.0.4
+  hive_flutter: ^1.0.0
   intl: ^0.17.0
   logger: ^1.0.0
   lottie: ^1.0.1
@@ -26,6 +29,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.4
+
+  
 flutter:
   uses-material-design: true
   assets:

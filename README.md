@@ -21,7 +21,7 @@ This is the flutter version of the Qhala android technical interview challenge :
 2. ~Implement the UI mock up~
 3. ~Add the HTTP layer~
 4. ~Responsive design for flutter web~
-5. Offline storage with Dio_http_cache
+5. ~Offline storage with Dio_http_cache~
 6. Add Tests
 7. Setup CI/CD
 
