@@ -9,6 +9,7 @@ import 'package:qhala/app/repositories/_repositories.dart';
 
 part 'moor_utils.g.dart';
 
+// setup a Flutter moor QueryExecutor
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
