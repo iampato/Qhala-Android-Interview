@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:qhala/app/models/movie_model.dart';
+import 'package:qhala/app/models/http/movie_model.dart';
 import 'package:qhala/app/repositories/_repositories.dart';
 import 'package:qhala/app/utils/exceptions.dart';
 

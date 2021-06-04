@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:qhala/app/models/movie_model.dart';
+import 'package:qhala/app/models/http/movie_model.dart';
 import 'package:qhala/app/screens/detail_page.dart';
 import 'package:qhala/app/widgets/color_pallete.dart';
 import 'package:qhala/app/widgets/page_route_transitions.dart';

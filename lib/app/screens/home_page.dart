@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:qhala/app/cubits/Theme/theme_cubit.dart';
 import 'package:qhala/app/cubits/movie/movie_cubit.dart';
-import 'package:qhala/app/models/movie_model.dart';
+import 'package:qhala/app/models/http/movie_model.dart';
 import 'package:qhala/app/repositories/_repositories.dart';
 import 'package:qhala/app/screens/widgets/movie_item.dart';
 import 'package:qhala/app/utils/http_client.dart';
