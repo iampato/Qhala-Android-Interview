@@ -257,7 +257,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.0.0"
+    version: "7.0.1"
   flutter_blurhash:
     dependency: transitive
     description:
@@ -310,6 +310,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  hive:
+    dependency: transitive
+    description:
+      name: hive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   http:
     dependency: transitive
     description:
@@ -331,6 +338,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  hydrated_bloc:
+    dependency: "direct main"
+    description:
+      name: hydrated_bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.0.1"
   image:
     dependency: transitive
     description:

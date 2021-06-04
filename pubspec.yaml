@@ -15,6 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
   equatable: ^2.0.0
+  hydrated_bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   google_fonts: ^2.1.0
   intl: ^0.17.0
