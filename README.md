@@ -6,7 +6,7 @@ This is the flutter version of the Qhala android technical interview challenge :
 
 - [Dio](https://pub.dev/packages/dio) - Request/response API
 - [Flutter_moor](https://moor.simonbinder.eu/) - To save data if in offline mode.
-- [CachedNetworkImage](https://pub.dev/packages/cached_network_image) - For image Loading
+- [CachedNetworkImage](https://pub.dev/packages/cached_network_image) - For image Loading/Caching
 - [Flutter_cubit](https://pub.dev/packages/flutter_bloc) - For state management (UI updates with data changes && bind UI components in layouts to data sources.)
 
 ## Test
