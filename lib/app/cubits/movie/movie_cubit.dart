@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -102,9 +100,8 @@ class MovieCubit extends HydratedCubit<MovieState> {
   MovieState fromJson(Map<String, dynamic> json) {
     bool fetchMore = json["fetch_more"];
     String message = json["message"];
-    String movieString = json["movie"];
-    final movieJson = jsonDecode(movieString);
-
+    Map movieJson = json["movie"];
+   
     return MovieLoaded(
       doneFetchingMore: fetchMore,
       message: message,
